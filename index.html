@@ -152,6 +152,64 @@ body:not(.custom-cursor) .social-card{cursor:pointer;}
   50%{box-shadow:0 0 12px rgba(74,222,128,1),0 0 20px rgba(74,222,128,0.4);}
 }
 
+/* ══ AUTOPLAY FLOATING BANNER ══ */
+#autoplay-banner {
+  position: fixed;
+  bottom: calc(4.5rem + env(safe-area-inset-bottom));
+  right: calc(1rem + env(safe-area-inset-right));
+  z-index: 25;
+  background: var(--glass);
+  border: 1px solid var(--accentbrd);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  padding: 0.6rem 1.1rem;
+  border-radius: 100px;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+  transform: translateY(30px);
+  opacity: 0;
+  pointer-events: none;
+  transition: transform 0.4s cubic-bezier(0.23,1,0.32,1), opacity 0.4s ease;
+}
+#autoplay-banner.is-visible {
+  transform: translateY(0);
+  opacity: 1;
+  pointer-events: all;
+}
+.autoplay-text {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  color: var(--fg2);
+}
+.autoplay-btn {
+  background: var(--accent);
+  color: #0a0a0a;
+  border: none;
+  font-family: var(--font-mono);
+  font-size: 9px;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 0.35rem 0.85rem;
+  border-radius: 100px;
+  transition: background 0.2s;
+}
+.autoplay-btn:hover {
+  background: var(--accent2);
+}
+
+@media(max-width: 700px) {
+  #autoplay-banner {
+    left: calc(1rem + env(safe-area-inset-left));
+    right: calc(1rem + env(safe-area-inset-right));
+    bottom: calc(4.5rem + env(safe-area-inset-bottom));
+    justify-content: space-between;
+  }
+}
+
 /* ══ NAV ══ */
 nav{
   position:fixed;top:0;left:0;right:0;z-index:100;
@@ -1094,6 +1152,12 @@ footer {
   <span class="status-label">Open to AI Roles</span>
 </div>
 
+<!-- AUTOPLAY FLOATING BANNER -->
+<div id="autoplay-banner">
+  <span class="autoplay-text">Autoplay was muted by browser restrictions.</span>
+  <button class="autoplay-btn" onclick="forceUnmuteSession()">Enable Audio</button>
+</div>
+
 <!-- NAV -->
 <nav>
   <ul class="nav-links">
@@ -1177,8 +1241,8 @@ footer {
 <!-- MISSION -->
 <section id="mission">
   <p class="section-label" style="text-align:center;margin-bottom:2rem;color:#2f3b11;">Mission</p>
-  <blockquote class="mission-quote reveal">Most workflows are more complicated than they need to be.</blockquote>
-  <p class="mission-sub reveal">Technology should reduce cognitive load, not increase it. I build AI systems that simplify decision-making, automate repetitive work, and allow people to focus on what humans do best.</p>
+  <blockquote class="mission-quote reveal">Technology should reduce cognitive load, not increase it.</blockquote>
+  <p class="mission-sub reveal">I build AI systems that simplify decision-making, automate repetitive work, and allow people to focus on what humans do best.</p>
 </section>
 
 <!-- PROJECTS -->
@@ -1209,22 +1273,25 @@ footer {
     </div>
     <div class="project-card reveal">
       <span class="project-badge">Computer Vision · Published</span>
-      <h3 class="project-title">Face Anti-Spoof Detection</h3>
-      <p class="project-summary">Undergraduate research investigating whether ResNet-50 transfer learning can produce reliable real/fake face classification under constrained conditions.</p>
+      <h3 class="project-title">Face Anti-Spoof Detection System</h3>
+      <p class="project-summary">Published undergraduate research focused on AI-powered face anti-spoof detection using deep learning. The system distinguishes real and AI-generated human faces using EfficientNetV2-B0 and was deployed as an interactive Streamlit application for real-time inference. This work was presented at ICETCI 2025 and published in the Springer Conference Proceedings.</p>
       <ul class="project-features">
         <li>Springer Conference Proceedings</li><li>ICETCI-2025</li>
         <li>Binary real/fake classification</li><li>Transfer learning</li>
       </ul>
       <div class="project-tech">
-        <span class="tech-tag">Python</span><span class="tech-tag">PyTorch</span>
-        <span class="tech-tag">OpenCV</span><span class="tech-tag">ResNet-50</span>
+        <span class="tech-tag">Python</span><span class="tech-tag">TensorFlow</span>
+        <span class="tech-tag">Keras</span><span class="tech-tag">EfficientNetV2-B0</span>
+        <span class="tech-tag">Streamlit</span>
       </div>
       <div style="margin-top:auto;padding-top:1.5rem;border-top:1px solid var(--line);">
-        <span class="project-stat">94.04%</span><br>
+        <span class="project-stat">93.91%</span><br>
         <span class="project-stat-label">Test Accuracy</span>
       </div>
       <div class="project-links">
         <a href="https://github.com/Pranav427/A-Modern-Security-Advance-System-for-Detection-of-Real-and-Fake-Human-Faces" target="_blank" rel="noopener" class="project-link">View Code</a>
+        <a href="https://link.springer.com/chapter/10.1007/978-3-031-92854-3_16" target="_blank" rel="noopener" class="project-link">Springer Paper</a>
+        <a href="https://real-vs-fake-face.streamlit.app/" target="_blank" rel="noopener" class="project-link project-link--live"><span class="project-link-dot"></span>Live Demo</a>
       </div>
     </div>
     <div class="project-card reveal">
@@ -1362,7 +1429,7 @@ footer {
   <h2 class="build-heading reveal">What I Can Build</h2>
   <ul class="build-list">
     <li class="build-item reveal"><span class="build-item-num">01</span><span class="build-item-name">Intelligent NLP Systems</span><span class="build-item-arrow">Python · Scikit-learn · TF-IDF · VADER</span></li>
-    <li class="build-item reveal"><span class="build-item-num">02</span><span class="build-item-name">Computer Vision Systems</span><span class="build-item-arrow">PyTorch · OpenCV · ResNet-50</span></li>
+    <li class="build-item reveal"><span class="build-item-num">02</span><span class="build-item-name">Computer Vision Systems</span><span class="build-item-arrow">TensorFlow · Keras · EfficientNetV2-B0</span></li>
     <li class="build-item reveal"><span class="build-item-num">03</span><span class="build-item-name">Machine Learning Engineering</span><span class="build-item-arrow">Pandas · NumPy · Evaluation · Tuning</span></li>
     <li class="build-item reveal"><span class="build-item-num">04</span><span class="build-item-name">LLM Integration</span><span class="build-item-arrow">LLM APIs · Prompting · Pydantic</span></li>
     <li class="build-item reveal"><span class="build-item-num">05</span><span class="build-item-name">Deployment and Engineering</span><span class="build-item-arrow">Streamlit · Git · Docker</span></li>
@@ -1556,15 +1623,17 @@ if(enableParticles){
   document.head.appendChild(threeScript);
 }
 
-/* ══ VIDEO — smart audio autoplay ══ */
+/* ══ VIDEO — Persistent Session Autoplay Engine ══ */
 const video=document.getElementById('hero-video');
 const playBtn=document.getElementById('play-btn');
 const soundBtn=document.getElementById('sound-btn');
 const heroEntry=document.getElementById('hero-entry');
 const enterPortfolioBtn=document.getElementById('enter-portfolio');
 const continueMutedBtn=document.getElementById('continue-muted');
-let userMuted=false;
-let audioUnlocked=false;
+const autoplayBanner=document.getElementById('autoplay-banner');
+
+let userMuted = true;
+let audioUnlocked = false;
 
 function updatePlayUI(){playBtn.textContent=video.paused?'▶':'⏸';}
 function updateSoundUI(){soundBtn.textContent=video.muted?'🔇':'🔊';}
@@ -1574,58 +1643,86 @@ function closeEntryOverlay(){
   heroEntry.setAttribute('aria-hidden','true');
 }
 
-function startMutedPlayback(){
-  video.muted=true;
-  userMuted=true;
-  audioUnlocked=false;
+function handleAutoplayMutedFallback() {
+  video.muted = true;
   updateSoundUI();
-  sessionStorage.setItem('po-entry','muted');
+  video.play().then(() => {
+    if (sessionStorage.getItem("audioPreference") === "enabled") {
+      autoplayBanner.classList.add('is-visible');
+    }
+  }).catch(() => {});
+}
+
+function forceUnmuteSession() {
+  autoplayBanner.classList.remove('is-visible');
+  audioUnlocked = true;
+  userMuted = false;
+  video.muted = false;
+  updateSoundUI();
+}
+
+function startMutedPlayback(){
+  sessionStorage.setItem("portfolioVisited", "true");
+  sessionStorage.setItem("audioPreference", "muted");
   closeEntryOverlay();
-  video.play().catch(()=>{});
+  video.muted = true;
+  userMuted = true;
+  audioUnlocked = false;
+  updateSoundUI();
+  video.play().catch(() => {});
 }
 
 function enableAudio(){
-  sessionStorage.setItem('po-entry','audio');
-  audioUnlocked=true;
+  sessionStorage.setItem("portfolioVisited", "true");
+  sessionStorage.setItem("audioPreference", "enabled");
   closeEntryOverlay();
-  video.currentTime=0;
-  video.muted=false;
-  userMuted=false;
+  video.currentTime = 0;
+  video.muted = false;
+  userMuted = false;
+  audioUnlocked = true;
   updateSoundUI();
-  const audioPlay=video.play();
-  if(audioPlay!==undefined){
-    audioPlay.catch(()=>{
-      video.muted=true;
-      userMuted=true;
-      audioUnlocked=false;
-      sessionStorage.setItem('po-entry','muted');
-      updateSoundUI();
-      video.play().catch(()=>{});
-    });
-  }
-}
-
-video.muted=true;
-const playPromise=video.play();
-if(playPromise!==undefined){
-  playPromise.then(()=>{
-    updatePlayUI();updateSoundUI();
-  }).catch(()=>{
-    updatePlayUI();updateSoundUI();
+  
+  video.play().catch(() => {
+    handleAutoplayMutedFallback();
   });
 }
 
-const previousEntryChoice=sessionStorage.getItem('po-entry');
-if(previousEntryChoice==='audio'){
-  audioUnlocked=false;
-  video.muted=true;
-  userMuted=true;
+function togglePlay(){video.paused?video.play():video.pause();}
+function toggleSound(){
+  if(!audioUnlocked){
+    forceUnmuteSession();
+    return;
+  }
+  userMuted=!userMuted;
+  video.muted=userMuted;
   updateSoundUI();
+}
+
+// Session Initializer Logic
+const sessionVisited = sessionStorage.getItem("portfolioVisited");
+const sessionAudioPref = sessionStorage.getItem("audioPreference");
+
+if (sessionVisited === "true") {
   closeEntryOverlay();
-}else if(previousEntryChoice==='muted'){
-  userMuted=true;
-  closeEntryOverlay();
-}else{
+  if (sessionAudioPref === "enabled") {
+    video.muted = false;
+    userMuted = false;
+    audioUnlocked = true;
+    updateSoundUI();
+    video.play().catch(() => {
+      handleAutoplayMutedFallback();
+    });
+  } else {
+    video.muted = true;
+    userMuted = true;
+    audioUnlocked = false;
+    updateSoundUI();
+    video.play().catch(() => {});
+  }
+} else {
+  video.muted = true;
+  updateSoundUI();
+  video.play().catch(() => {});
   enterPortfolioBtn.focus({preventScroll:true});
 }
 
@@ -1633,19 +1730,14 @@ video.addEventListener('play',updatePlayUI);
 video.addEventListener('pause',updatePlayUI);
 enterPortfolioBtn.addEventListener('click',enableAudio);
 continueMutedBtn.addEventListener('click',startMutedPlayback);
+
 ['wheel','touchmove'].forEach(evt=>{
   heroEntry.addEventListener(evt,()=>{
-    if(!heroEntry.classList.contains('is-hidden')) startMutedPlayback();
+    if(!heroEntry.classList.contains('is-hidden') && !sessionStorage.getItem("portfolioVisited")) {
+      startMutedPlayback();
+    }
   },{once:true,passive:true});
 });
-
-function togglePlay(){video.paused?video.play():video.pause();}
-function toggleSound(){
-  if(!audioUnlocked){enableAudio();return;}
-  userMuted=!userMuted;
-  video.muted=userMuted;
-  updateSoundUI();
-}
 
 const heroObs=new IntersectionObserver(entries=>{
   entries.forEach(e=>{
